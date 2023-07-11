@@ -1,6 +1,11 @@
 description: This folder(task) runs the OCR extracts tables and paragraphs, translates them and writes as a text file.
 
-ignore_docs: [ ]
+ignore_docs: 
+  - mahtech-1434.pdf: Invisible table in the pdf, showing up at wrong position
+  - mahtech-1180.pdf: Invisible table in the pdf, showing up at wrong position
+  - mahtech-1243.pdf: One edge is slightly off
+  - mahtech-1611.pdf: Lot of unnecessary tables
+  - mahtech-2060.pdf: Lot of unnecessary tables
 
 #docker_pipes: [ 'doc_translator_a4b']
 
@@ -13,16 +18,16 @@ pipeline:
 
   - name: gcv_recognizer2
     config:
-      bucket: orgpediafoundationindia
+      bucket: opfindia
       compress_output: True
 
   - name: orient_pages
     config:
       min_word_len: 4
 
-  # - name: page_image_builder_embedded
-  #   config:
-  #     image_dir: /export/page_images
+  - name: page_image_builder_embedded
+    config:
+      image_dir: /export/page_images
 
   - name: pdftable_finder
     config:
@@ -39,15 +44,15 @@ pipeline:
       quick: True
       newline_height_multiple: 1.6
 
-  # - name: html_generator
-  #   config:
-  #     html_root: output/html
-  #     color_dict:
-  #       table:
-  #         row1: red
-  #         row2: yellow
-  #       table_edges: green
-  #       word: blue
+  - name: html_generator
+    config:
+      html_root: output/html
+      color_dict:
+        table:
+          row1: red
+          row2: yellow
+        table_edges: green
+        word: blue
 
   - name: para_finder
     config:
